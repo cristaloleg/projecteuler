@@ -1,7 +1,6 @@
 package projecteuler
 
 import (
-	"math"
 	"math/big"
 )
 
@@ -43,7 +42,21 @@ func Divisors(x int) []int {
 	return divisor
 }
 
-func Min(xs ...int) int {
+func Min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+
+func Max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+func MinOf(xs ...int) int {
 	min := xs[0]
 	for _, x := range xs {
 		if x < min {
@@ -53,7 +66,7 @@ func Min(xs ...int) int {
 	return min
 }
 
-func Max(xs ...int) int {
+func MaxOf(xs ...int) int {
 	max := xs[0]
 	for _, x := range xs {
 		if x > max {
@@ -77,22 +90,6 @@ func Factorial(n int) *Int {
 	return x
 }
 
-func IsPrime(n int) bool {
-	if n < 3 {
-		return n == 2
-	}
-	if n%2 == 0 {
-		return false
-	}
-	sqrt := int(math.Sqrt(float64(n))) + 1
-	for i := 3; i < sqrt; i += 2 {
-		if n%i == 0 {
-			return false
-		}
-	}
-	return true
-}
-
 func GCD(x, y int) int {
 	for y != 0 {
 		x, y = y, x%y
@@ -114,4 +111,26 @@ func Pow(a, b int) int {
 		a *= a
 	}
 	return p
+}
+
+func IsPrime(n int) bool {
+	switch {
+	case n <= 1:
+		return false
+	case n < 4:
+		return true
+	case n%2 == 0:
+		return false
+	case n < 9:
+		return true
+	case n%3 == 0:
+		return false
+	}
+
+	for p := 5; p*p <= n; p += 6 {
+		if n%p == 0 || n%(p+2) == 0 {
+			return false
+		}
+	}
+	return true
 }
